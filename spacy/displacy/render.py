@@ -581,6 +581,7 @@ class EntityRenderer:
             start = span["start"]
             end = span["end"]
             score = TPL_SCORE.format(score=span["score"]) if "score" in span else ""
+            color = span.get("bg", "")
             kb_id = span.get("kb_id", "")
             kb_url = span.get("kb_url", "#")
             kb_link = TPL_KB_LINK.format(kb_id=kb_id, kb_url=kb_url) if kb_id else ""
@@ -592,7 +593,8 @@ class EntityRenderer:
                 if len(fragments) > 1 and i != len(fragments) - 1:
                     markup += "<br>"
             if self.ents is None or label.upper() in self.ents:
-                color = self.colors.get(label.upper(), self.default_color)
+                if not color:
+                    color = self.colors.get(label.upper(), self.default_color)
                 ent_settings = {
                     "label": label,
                     "text": entity,
